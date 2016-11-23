@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>操作cookie</title>
+</head>
+<head>
+<script>
+// 通过js代码控制传入
+function setCookieTime(time){
+  var d = new Date();
+  var header = time.substring(0,1);
+    switch (header) {
+    case 'd':
+      expires = body*24*60*60*1000;
+      break;
+    case 'h':
+      expires = body*60*60*1000;  
+      // statements_def
+      break;
+    case 'm':
+      expires = body*60*1000;
+    case 's':
+      expires = body*1000; 
+  }
+  d.setTime(d.getTime() + body*1);
+  return d.toGMTString();
+}
+// 设置cookie
+function setCookie(cname,cvalue,exdays){
+  var d = new Date();
+  var expires = "expires="+ setCookieTime(exdays);
+  document.cookie = cname+"="+cvalue+"; "+expires;
+}
+// 获取 cookie对应内容
+function getCookie(cname){
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0; i<ca.length; i++) {
+    var c = ca[i].trim();
+    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+  }
+  return "";
+}
+// 删除cookie
+function delCookie(name){
+  var exp = new Date();
+  exp.setTime(exp.getTime() - 1);
+  var cval = getCookie(name);
+  if(cval!=null) document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+}
+// 应用cookie
+function checkCookie(){
+  // delCookie("username");
+  var user=getCookie("username");
+  if (user!=""){
+    alert("Welcome again " + user);
+  }
+  else {
+    user = prompt("Please enter your name:","");
+      if (user!="" && user!=null){
+        setCookie("username",user,"s15");
+      }
+  }
+  var IfSaveCookie = confirm("需要保存cookie在本地浏览器吗？");
+  if(!IfSaveCookie){
+    delCookie("username")
+  }
+}
+// d30 h30 m30 s30
+</script>
+</head>
+  
+<body onload="checkCookie()"></body>
+  
